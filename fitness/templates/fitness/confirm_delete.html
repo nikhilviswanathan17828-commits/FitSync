@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirm Delete</title>
+</head>
+<body>
+    <h1>Are you sure you want to delete "{{ obj }}"?</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" style="background-color: red; color: white;">Yes, Delete</button>
+        <a href="javascript:history.back()">Cancel</a>
+    </form>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends 'fitness/base.html' %}
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-3 fw-bold">Staff / Receptionist Dashboard</h2>
+    
+    {% if branch %}
+        <div class="alert alert-info">
+            <strong>Assigned Branch:</strong> {{ branch.name }} ({{ branch.location }})
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            No branch assigned yet. Please contact the Admin.
+        </div>
+    {% endif %}
+
+    <div class="row g-4 mt-3">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-4 p-3">
+                <h4 class="card-title text-primary">Branch Members</h4>
+                <p class="text-muted">View and manage members belonging to your assigned branch.</p>
+                {% if branch %}
+                    <a href="{% url 'branch_member_list' branch.id %}" class="btn btn-outline-primary btn-sm">View Members</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 rounded-4 p-3">
+                <h4 class="card-title text-success">Branch Attendance</h4>
+                <p class="text-muted">Check and record daily attendance for your branch members.</p>
+                {% if branch %}
+                    <a href="{% url 'branch_attendance_list' branch.id %}" class="btn btn-outline-success btn-sm">View Attendance</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

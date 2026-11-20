@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitSync - Gym Members</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}"><i class="fa-solid fa-dumbbell me-2"></i>FitSync Dashboard</a>
+            <div class="d-flex">
+                <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm me-2"><i class="fa-solid fa-house me-1"></i> Home</a>
+                <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-5">
+        <div class="row align-items-center mb-4">
+            <div class="col-md-6">
+                <h2 class="fw-bold text-dark"><i class="fa-solid fa-users me-2 text-primary"></i>Gym Members List</h2>
+                <p class="text-muted">Manage all registered gym members and their subscription plans.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="{% url 'add_member' %}" class="btn btn-primary shadow-sm">
+                    <i class="fa-solid fa-user-plus me-1"></i> Add New Member
+                </a>
+            </div>
+        </div>
+
+        <!-- Members Table Card -->
+        <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+            <div class="card-body p-0">
+                {% if members %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="ps-4">Member Name</th>
+                                    <th>Phone / Email</th>
+                                    <th>Branch</th>
+                                    <th>Plan</th>
+                                    <th>Status</th>
+                                    <th class="text-end pe-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member in members %}
+                                <tr>
+                                    <td class="ps-4 fw-semibold text-dark">
+                                        <i class="fa-solid fa-user-circle text-secondary me-2"></i>{{ member.name }}
+                                    </td>
+                                    <td>
+                                        <small class="text-muted d-block"><i class="fa-solid fa-phone me-1"></i>{{ member.phone|default:"N/A" }}</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary-subtle text-secondary border px-2 py-1">
+                                            {{ member.branch.name|default:"Not Assigned" }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info-subtle text-info border px-2 py-1">
+                                            {{ member.plan.name|default:"No Plan" }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if member.is_active %}
+                                            <span class="badge bg-success"><i class="fa-solid fa-check me-1"></i>Active</span>
+                                        {% else %}
+                                            <span class="badge bg-danger"><i class="fa-solid fa-xmark me-1"></i>Expired</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <a href="{% url 'update_member' member.id %}" class="btn btn-sm btn-outline-warning me-1" title="Edit">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a href="{% url 'delete_member' member.id %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fa-solid fa-user-slash fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No members added yet.</h5>
+                        <p class="text-muted small">Click the button below to add your first gym member.</p>
+                        <a href="{% url 'add_member' %}" class="btn btn-primary btn-sm mt-2">
+                            <i class="fa-solid fa-user-plus me-1"></i> Add Member
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

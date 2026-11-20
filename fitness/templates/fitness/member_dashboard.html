@@ -1,0 +1,48 @@
+{% extends 'fitness/base.html' %}
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-3 fw-bold text-primary">Member Dashboard</h2>
+
+    {% if member %}
+        <div class="card shadow-sm border-0 rounded-4 p-4 mb-4 bg-light">
+            <h4 class="fw-bold">{{ member.name }}</h4>
+            <p class="mb-1"><strong>Branch:</strong> {{ member.branch.name }}</p>
+            <p class="mb-0"><strong>Membership Plan:</strong> {{ member.plan.name }}</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Attendance Section -->
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 rounded-4 p-3">
+                    <h5 class="text-success fw-bold mb-3">My Attendance</h5>
+                    <ul class="list-group list-group-flush">
+                        {% for att in attendances %}
+                            <li class="list-group-item">{{ att.date }} - {{ att.status }}</li>
+                        {% empty %}
+                            <li class="list-group-item text-muted">No attendance records found.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Payments Section -->
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0 rounded-4 p-3">
+                    <h5 class="text-primary fw-bold mb-3">My Payments</h5>
+                    <ul class="list-group list-group-flush">
+                        {% for pay in payments %}
+                            <li class="list-group-item">Amount: ₹{{ pay.amount }} ({{ pay.payment_date }})</li>
+                        {% empty %}
+                            <li class="list-group-item text-muted">No payment records found.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            Your user account is not linked to any Gym Member profile yet. Please contact the Admin/Staff.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
